@@ -10,7 +10,7 @@ endif
 
 INC_PATH += -I./include
 
-D_LIB=-lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system
+D_LIB=-lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -lfmt
 S_LIB=-DSFML_STATIC -static -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-system-s
 S_LIB+=-lopengl32 -lfreetype -lwinmm -lgdi32
 S_LIB+=-lopenal32 -lvorbisenc -lvorbisfile -lvorbis -lFLAC -lm -logg
@@ -28,7 +28,7 @@ ifeq ($(UNAME_S),Darwin) # macOS
 endif
 
 EXE=th
-SOURCES=main.cpp
+SOURCES=main.cpp resManager.cpp log.cpp
 
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))
 

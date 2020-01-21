@@ -1,6 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include <fmt/printf.h>
+
+#include <resManager.h>
+#include <log.h>
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "th");
