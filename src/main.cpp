@@ -1,3 +1,5 @@
+#include <functional>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -9,10 +11,12 @@
 
 using namespace rl;
 
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "th");
     window.setFramerateLimit(60);
+
     while(window.isOpen())
     {
         // Process events
@@ -31,8 +35,6 @@ int main()
         // Update
         // Render
         window.clear();
-        // window.draw(s);
-        // window.draw(s2);
         window.display();
     }
 }

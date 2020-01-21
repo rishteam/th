@@ -32,6 +32,7 @@ class Logger
 {
 public:
     static Logger logger;
+    static LogLevel nowLevel;
     //
 
     static const char *LogName[LOG_LEVEL_NUM];
@@ -40,6 +41,7 @@ public:
         const char* file, const int line, const char * func, const char* format,
         fmt::format_args args)
     {
+        if(level > Logger::nowLevel) return;
         fmt::printf("[%s] %s @ %s:%d\n", Logger::LogName[level], func, file, line);
         fmt::vprint(format, args);
         fmt::print("\n");

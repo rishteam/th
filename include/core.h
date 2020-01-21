@@ -2,7 +2,9 @@
 
 #include <log.h>
 
-#ifdef RL_DEBUG
+#define RL_DEBUG_DEFINE
+
+#ifdef RL_DEBUG_DEFINE
     #define RL_ENABLE_ASSERT
 #endif
 

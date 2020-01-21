@@ -57,6 +57,7 @@ private:
     S_RES_FIELD(Image);
     S_RES_FIELD(Texture);
     S_RES_FIELD(Sound);
+    static std::vector<std::unique_ptr<sf::SoundBuffer>> SoundBufferVec;
     S_RES_FIELD(Music);
 };
 
