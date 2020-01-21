@@ -4,7 +4,10 @@
 #include <fmt/printf.h>
 
 #include <resManager.h>
+#include <core.h>
 #include <log.h>
+
+using namespace rl;
 
 int main()
 {
@@ -28,6 +31,8 @@ int main()
         // Update
         // Render
         window.clear();
+        // window.draw(s);
+        // window.draw(s2);
         window.display();
     }
 }

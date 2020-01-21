@@ -12,11 +12,13 @@
 
 namespace rl {
 
-#define RES_FIELD(ID) \
+// static
+#define S_RES_FIELD(ID)                                    \
     static std::unordered_map<std::string, int> ID ## Idx; \
     static std::vector<std::unique_ptr<sf::ID>> ID ## Vec
 
-#define RES_FIELD_IMPL(ID) \
+#define S_RES_FIELD_IMPL(ID)                                  \
+    std::unordered_map<std::string, int> ResManager::ID ## Idx; \
     std::vector<std::unique_ptr<sf::ID>> ResManager::ID ## Vec
 
 enum ResType
@@ -27,6 +29,19 @@ enum ResType
     ResMusic
 };
 
+// Usage: e.g. load a texture (namesapce rl)
+// ResManager::loadRes(ResTexture, "test", "/path/to/test.png");
+//
+// with copy and readonly
+// sf::Texture tex = ResManager::getTexture("test");
+//
+// without copy and RW
+// sf::Texture &tex = ResManager::getTexture("test");
+//
+// without copy and readonly
+// const sf::Texture &tex = ResManager::getTexture("test");
+
+// Resource Manager
 class ResManager
 {
 public:
@@ -39,10 +54,10 @@ public:
     static sf::Music& getMusic(std::string name);
 
 private:
-    RES_FIELD(Image);
-    RES_FIELD(Texture);
-    RES_FIELD(Sound);
-    RES_FIELD(Music);
+    S_RES_FIELD(Image);
+    S_RES_FIELD(Texture);
+    S_RES_FIELD(Sound);
+    S_RES_FIELD(Music);
 };
 
 }

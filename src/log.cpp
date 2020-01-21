@@ -6,7 +6,7 @@ namespace rl {
 Logger Logger::logger;
 
 const char * Logger::LogName[LogLevel::LOG_LEVEL_NUM] = {
-    "NONE", "INFO", "WARN", "DEBUG"
+    "NONE", "INFO", "WARN", "ERROR", "DEBUG"
 };
 
 }
