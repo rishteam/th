@@ -2,6 +2,8 @@
 
 namespace rl {
 
+float Entity::s_MoveUnit = 1.f;
+
 Entity::Entity()
 {
     x = y = 0.f;

@@ -6,6 +6,10 @@
 
 namespace rl {
 
+int Game::s_fps = 60;
+
+int Game::s_WindowWidth = 1920, Game::s_WindowHeight = 1080;
+
 void Game::run()
 {
     sf::RenderWindow &window = *m_window;

@@ -1,25 +1,34 @@
+#include <game.h>
 #include <player.h>
 #include <log.h>
+#include <utils.h>
 
 namespace rl {
 
 std::string Player::debugPlayerDir[Player::DirCount] = {"DirNone", "DirRight", "DirUpRight", "DirUp", "DirUpLeft", "DirLeft", "DirDownLeft", "DirDown", "DirDownRight"};
+
+float Player::s_DirToAngle[DirCount] = {-1.f, 0.f, 45.f, 90.f, 135.f, 180.f, 225.f, 270.f, 315.f};
 
 Player::Player()
     : hover("reimu-hover", 4, "assets/player/", "reimu-hover{}.png"),
       move("reimu-move", 7, "assets/player/", "reimu-move{}.png")
 {
     playerDir = preDir = DirNone;
-    nowAni = nullptr;
+    nowAni = &hover;
+    //
+    x = 1920/2;
+    y = 1080/2;
+    nowAni->setPosition(x, y);
+    Player::s_MoveUnit = 800;
     // ani settings
     hover.duration = 0.6f;
     hover.loop = true;
-    hover.setScale(sf::Vector2f(3.f, 3.f));
+    hover.setScale(sf::Vector2f(5.f, 5.f));
 
     move.duration = 0.8f;
-    move.reverseDuration = 0.5f;
+    move.reverseDuration = 0.25f;
     move.loop = false;
-    move.setScale(sf::Vector2f(3.f, 3.f));
+    move.setScale(sf::Vector2f(5.f, 5.f));
 }
 
 void Player::update()
@@ -28,10 +37,10 @@ void Player::update()
     //
     processInput();
     //
+    processMove();
+    // ----------------------------------------
+    // Animation
     static bool moved = false;
-
-    fmt::print("{} {}\n", Player::debugPlayerDir[preDir], Player::debugPlayerDir[playerDir]);
-
     // select ani
     if(!moved && playerDir == DirNone)
         nowAni = &hover;
@@ -42,12 +51,12 @@ void Player::update()
         if(isRight(playerDir))
         {
             move.setOrigin(sf::Vector2f(move.getLocalBound().width, 0.f));
-            move.setScale(sf::Vector2f(-3.f, 3.f));
+            move.setScale(sf::Vector2f(-5.f, 5.f));
         }
         else if(isLeft(playerDir))
         {
             move.setOrigin(sf::Vector2f(0.f, 0.f));
-            move.setScale(sf::Vector2f(3.f, 3.f));
+            move.setScale(sf::Vector2f(5.f, 5.f));
         }
     }
     // When dir state changes to DirNone
@@ -71,6 +80,7 @@ void Player::draw(sf::RenderTarget &target)
 {
     // Entity::draw(target);
     RL_ASSERT(nowAni, "Current animation is nullptr");
+    nowAni->setPosition(x, Game::s_WindowHeight-y); // to screen coordinate
     nowAni->draw(target);
 }
 
@@ -101,6 +111,19 @@ void Player::processInput()
     else
     {
         playerDir = DirNone;
+    }
+}
+
+void Player::processMove()
+{
+    RL_ASSERT(playerDir >= DirNone && playerDir < DirCount, "Invalid playerDir");
+    float radAngle = Player::s_DirToAngle[playerDir] * DEG2RAD;
+    if(playerDir != DirNone)
+    {
+        float dis = Player::s_MoveUnit / Game::s_fps * speed;
+        x += dis * cos(radAngle);
+        y += dis * sin(radAngle);
+        fmt::printf("x=%.2f y=%.2f\n", x, y);
     }
 }
 

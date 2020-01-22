@@ -13,10 +13,13 @@ namespace rl {
 class Game
 {
 public:
+    static int s_fps;
+    static int s_WindowWidth, s_WindowHeight;
+
     Game(std::string title)
     {
-        m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1920, 1080), title);
-        m_window->setFramerateLimit(60); // fps
+        m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(Game::s_WindowWidth, Game::s_WindowHeight), title);
+        m_window->setFramerateLimit(Game::s_fps); // fps
     }
     // Run the game
     // executing the game loop

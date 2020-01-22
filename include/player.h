@@ -12,7 +12,6 @@ class Player : public Entity
 public:
     Player();
 
-
     virtual void update() override;
     virtual void draw(sf::RenderTarget &target) override;
 
@@ -31,10 +30,13 @@ public:
         DirCount // count
     };
 
+    static float s_DirToAngle[DirCount];
     static std::string debugPlayerDir[DirCount];
 
 private:
     void processInput();
+    void processMove();
+    // helper
     bool isLeft(PlayerDir dir) { return playerDir == DirLeft || playerDir == DirUpLeft || playerDir == DirDownLeft; }
     bool isRight(PlayerDir dir) { return playerDir == DirRight || playerDir == DirUpRight || playerDir == DirDownRight; }
 

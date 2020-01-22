@@ -14,10 +14,12 @@ public:
     virtual void update();
     virtual void draw(sf::RenderTarget &target);
 
+    static float s_MoveUnit;
+
     float x, y;
     float speed;
     float dir;
-    bool visible;
+    bool visible; // TODO: impl
     //
     sf::Clock clk;
 };
