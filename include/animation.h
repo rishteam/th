@@ -7,24 +7,30 @@
 
 #include <fmt/core.h>
 
+#include <core.h>
+
+// TODO: implement load resource info for origin and fps and scale and loop
+
+// Ref: https://www.sfml-dev.org/tutorials/2.5/graphics-transform.php
+
 namespace rl {
 
-class Animation
+class Animation : public sf::Transformable
 {
 public:
     Animation();
-    Animation(std::string texName, int count, std::string path, std::string fnameFmt, bool load=true);
-    // Animation(const Animation &ani);
-    // Animation& operator=(const Animation& rhs);
+    Animation(std::string texName, int count,
+        std::string path, std::string fnameFmt,
+        bool load=true);
+
+    void setInfo(std::string texName, int count,
+        std::string path, std::string fnameFmt);
 
     void loadRes();
     void draw(sf::RenderTarget &target);
 
     float fps;
-    float x, y;
-    sf::Vector2f scale;
 
-    float rotate;
 private:
     // Texture attributes
     bool m_loop = false;

@@ -7,9 +7,6 @@ namespace rl {
 // Default constructor of rl::animation
 Animation::Animation()
 {
-    x = y = 0.f;
-    scale = (sf::Vector2f){1.f, 1.f};
-    rotate = 0.f;
     fps = 10;
     m_count = m_nowFrame = 0;
     m_loop = true;
@@ -35,6 +32,15 @@ Animation::Animation(std::string texName, int count,
     m_path    = path;
     m_format  = fnameFmt;
     if(load) loadRes();
+}
+
+void Animation::setInfo(std::string texName, int count,
+                        std::string path, std::string fnameFmt)
+{
+    m_texName = texName;
+    m_count   = count;
+    m_path    = path;
+    m_format  = fnameFmt;
 }
 
 void Animation::loadRes()
@@ -75,10 +81,8 @@ void Animation::draw(sf::RenderTarget &target)
         }
     }
     sf::Sprite &now = *m_spriteVec[m_nowFrame];
-    now.setScale(scale);
-    now.setPosition(x, y);
-    now.setRotation(rotate);
-    target.draw(now);
+    const sf::Transform &trans = getTransform();
+    target.draw(now, trans);
 }
 
 }

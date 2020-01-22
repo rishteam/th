@@ -33,10 +33,10 @@ void Game::draw()
     static float angle = 0.f;
     angle += 0.001f;
     static float radius = 50.f;
-    ani.scale = sf::Vector2f(5.f, 5.f);
-    ani.x = 600 + radius * cos(angle * DEG2RAD);
-    ani.y = 400 + radius * sin(angle * DEG2RAD);
-    ani.rotate += 0.1f;
+    ani.setScale(sf::Vector2f(5.f, 5.f));
+    ani.setPosition(600 + radius * cos(angle * DEG2RAD),
+        400 + radius * sin(angle * DEG2RAD));
+    ani.rotate(0.1f);
     // fmt::printf("angle = %.2f\n", ani.rotate);
     ani.draw(window);
 }
