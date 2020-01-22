@@ -23,6 +23,8 @@ public:
     float fps;
     float x, y;
     sf::Vector2f scale;
+
+    float rotate;
 private:
     // Texture attributes
     bool m_loop = false;

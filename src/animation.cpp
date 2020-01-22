@@ -9,6 +9,7 @@ Animation::Animation()
 {
     x = y = 0.f;
     scale = (sf::Vector2f){1.f, 1.f};
+    rotate = 0.f;
     fps = 10;
     m_count = m_nowFrame = 0;
     m_loop = true;
@@ -75,6 +76,8 @@ void Animation::draw(sf::RenderTarget &target)
     }
     sf::Sprite &now = *m_spriteVec[m_nowFrame];
     now.setScale(scale);
+    now.setPosition(x, y);
+    now.setRotation(rotate);
     target.draw(now);
 }
 
