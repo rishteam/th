@@ -14,6 +14,9 @@ Animation::Animation()
     m_loop = true;
 }
 
+// TODO: sprite rotation
+// Refactor: Use only one sprite but set different texture.
+
 // Parameter Constructor of rl::Animation
 // Parameters:
 // std::string texName  : texture name
