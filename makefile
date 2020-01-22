@@ -28,7 +28,7 @@ ifeq ($(UNAME_S),Darwin) # macOS
 endif
 
 EXE=th
-SOURCES=main.cpp game.cpp resManager.cpp log.cpp
+SOURCES=main.cpp game.cpp animation.cpp resManager.cpp log.cpp
 
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))
 

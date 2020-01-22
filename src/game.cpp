@@ -1,4 +1,7 @@
 #include <game.h>
+#include <animation.h>
+
+#include <string>
 
 namespace rl {
 
@@ -22,7 +25,10 @@ void Game::update()
 
 void Game::draw()
 {
-
+    sf::RenderWindow &window = *m_window;
+    static Animation ani("test", 4, "assets/player/", "reimu-hover{}.png");
+    ani.scale = sf::Vector2f(5.f, 5.f);
+    ani.draw(window);
 }
 
 void Game::processEvent()
