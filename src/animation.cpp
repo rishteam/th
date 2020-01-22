@@ -7,9 +7,10 @@ namespace rl {
 // Default constructor of rl::animation
 Animation::Animation()
 {
-    fps = 10;
+    duration = reverseDuration = 1.f;
     m_count = m_nowFrame = 0;
-    m_loop = true;
+    loop = true;
+    reverse = false;
 }
 
 // TODO: sprite rotation
@@ -68,21 +69,50 @@ void Animation::loadRes()
 
 void Animation::draw(sf::RenderTarget &target)
 {
-    if(m_clk.getElapsedTime().asSeconds() >= 1/fps)
+    float dur = reverse ? reverseDuration : duration;
+    if (m_clk.getElapsedTime().asSeconds() >= dur / m_count)
     {
         m_clk.restart();
-        m_nowFrame++;
-        if(m_nowFrame >= m_count)
+        if(!reverse)
+            m_nowFrame++;
+        else
+            m_nowFrame--;
+
+        if(!reverse)
         {
-            if(m_loop)
-                m_nowFrame = 0;
-            else
-                m_nowFrame = m_count-1;
+            if(m_nowFrame >= m_count)
+            {
+                if(loop)
+                    m_nowFrame = 0;
+                else
+                    m_nowFrame = m_count-1;
+            }
+        }
+        else
+        {
+            if(m_nowFrame < 0)
+            {
+                if(loop)
+                    m_nowFrame = m_count-1;
+                else
+                    m_nowFrame = 0;
+            }
         }
     }
     sf::Sprite &now = *m_spriteVec[m_nowFrame];
     const sf::Transform &trans = getTransform();
     target.draw(now, trans);
+}
+
+// TODO: change the end point to loop points
+bool Animation::isEnd()
+{
+    if(loop) return false;
+
+    if(reverse)
+        return m_nowFrame == 0;
+    else
+        return m_nowFrame == m_count-1;
 }
 
 }

@@ -4,6 +4,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <animation.h>
+#include <utils.h>
+#include <player.h>
+
 namespace rl {
 
 class Game
@@ -29,6 +33,8 @@ public:
 
 private:
     std::unique_ptr<sf::RenderWindow> m_window;
+
+    Player player;
 };
 
 }

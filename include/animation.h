@@ -11,6 +11,8 @@
 
 // TODO: implement load resource info for origin and fps and scale and loop
 
+// TODO: set loop start end
+
 // Ref: https://www.sfml-dev.org/tutorials/2.5/graphics-transform.php
 
 namespace rl {
@@ -22,18 +24,30 @@ public:
     Animation(std::string texName, int count,
         std::string path, std::string fnameFmt,
         bool load=true);
-
+    // TODO: impl
     void setInfo(std::string texName, int count,
         std::string path, std::string fnameFmt);
 
     void loadRes();
     void draw(sf::RenderTarget &target);
 
-    float fps;
+    // the duration of the animation (second)
+    float duration, reverseDuration;
+    bool loop;
+    bool reverse;
 
+    bool isEnd();
+    sf::FloatRect getLocalBound()
+    {
+        if(m_spriteVec.empty()) return sf::FloatRect();
+        else return m_spriteVec.back()->getLocalBounds();
+    }
+    void resetFrame() { m_nowFrame = 0; }
+    int getNowFrame() { return m_nowFrame; }
+
+    int getCount() { return m_count; }
 private:
     // Texture attributes
-    bool m_loop = false;
     int m_count, m_nowFrame;
     std::string m_texName;
     std::string m_format, m_path;
