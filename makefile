@@ -2,8 +2,8 @@ CXX=g++
 CXXFLAGS=-std=c++14
 # Include and link path
 ifeq ($(OS),Windows_NT)
-	INC_PATH=-I../thirdparty/SFML-2.5.1/include
-	LIB_PATH=-L../thirdparty/SFML-2.5.1/lib
+	INC_PATH=-I./thirdparty/SFML-2.5.1/include
+	LIB_PATH=-L./thirdparty/SFML-2.5.1/lib
 else
 	# Other plaform
 endif
@@ -11,7 +11,7 @@ endif
 INC_PATH += -I./include
 
 D_LIB=-lsfml-graphics -lsfml-window -lsfml-audio -lsfml-system -lfmt
-S_LIB=-DSFML_STATIC -static -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-system-s
+S_LIB=-DSFML_STATIC -static -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lsfml-system-s -lfmt
 S_LIB+=-lopengl32 -lfreetype -lwinmm -lgdi32
 S_LIB+=-lopenal32 -lvorbisenc -lvorbisfile -lvorbis -lFLAC -lm -logg
 LIBS=$(S_LIB)
@@ -29,7 +29,7 @@ endif
 
 EXE=th
 SOURCES=main.cpp game.cpp
-SOURCES+= player.cpp entity.cpp
+SOURCES+= player.cpp bullet.cpp entity.cpp
 SOURCES+= animation.cpp resManager.cpp log.cpp
 
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))

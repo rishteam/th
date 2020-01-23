@@ -12,6 +12,7 @@
 // TODO: implement load resource info for origin and fps and scale and loop
 
 // TODO: set loop start end
+// TODO: support flip
 
 // Ref: https://www.sfml-dev.org/tutorials/2.5/graphics-transform.php
 

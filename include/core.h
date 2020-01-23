@@ -2,6 +2,8 @@
 
 #include <log.h>
 
+#include <debug-trap.h>
+
 #define RL_DEBUG_DEFINE
 
 #ifdef RL_DEBUG_DEFINE
@@ -16,7 +18,7 @@
         if (!(x))                                              \
         {                                                      \
             RL_ERROR("Assertion Failed: " fmt, ##__VA_ARGS__); \
-            __builtin_debugtrap();                             \
+            psnip_trap();                                      \
         }                                                      \
     }
 #else

@@ -15,20 +15,20 @@ Player::Player()
 {
     playerDir = preDir = DirNone;
     nowAni = &hover;
-    //
-    x = 1920/2;
-    y = 1080/2;
+    // player attributes
+    x = Game::s_WindowWidth/2;
+    y = Game::s_WindowHeight/2;
     nowAni->setPosition(x, y);
     Player::s_MoveUnit = 800;
-    // ani settings
+    // animation attributes
     hover.duration = 0.6f;
     hover.loop = true;
-    hover.setScale(sf::Vector2f(5.f, 5.f));
+    hover.setScale(sf::Vector2f(2.f, 2.f));
 
     move.duration = 0.8f;
     move.reverseDuration = 0.25f;
     move.loop = false;
-    move.setScale(sf::Vector2f(5.f, 5.f));
+    move.setScale(sf::Vector2f(2.f, 2.f));
 }
 
 void Player::update()
@@ -51,12 +51,12 @@ void Player::update()
         if(isRight(playerDir))
         {
             move.setOrigin(sf::Vector2f(move.getLocalBound().width, 0.f));
-            move.setScale(sf::Vector2f(-5.f, 5.f));
+            move.setScale(sf::Vector2f(-2.f, 2.f));
         }
         else if(isLeft(playerDir))
         {
             move.setOrigin(sf::Vector2f(0.f, 0.f));
-            move.setScale(sf::Vector2f(5.f, 5.f));
+            move.setScale(sf::Vector2f(2.f, 2.f));
         }
     }
     // When dir state changes to DirNone
@@ -123,7 +123,7 @@ void Player::processMove()
         float dis = Player::s_MoveUnit / Game::s_fps * speed;
         x += dis * cos(radAngle);
         y += dis * sin(radAngle);
-        fmt::printf("x=%.2f y=%.2f\n", x, y);
+        // fmt::printf("x=%.2f y=%.2f\n", x, y);
     }
 }
 

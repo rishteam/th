@@ -4,9 +4,10 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <player.h>
+#include <bullet.h>
 #include <animation.h>
 #include <utils.h>
-#include <player.h>
 
 namespace rl {
 
@@ -16,11 +17,7 @@ public:
     static int s_fps;
     static int s_WindowWidth, s_WindowHeight;
 
-    Game(std::string title)
-    {
-        m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(Game::s_WindowWidth, Game::s_WindowHeight), title);
-        m_window->setFramerateLimit(Game::s_fps); // fps
-    }
+    Game(std::string title);
     // Run the game
     // executing the game loop
     void run();
@@ -36,6 +33,8 @@ public:
 
 private:
     std::unique_ptr<sf::RenderWindow> m_window;
+
+    sf::RectangleShape bg;
 
     Player player;
 };

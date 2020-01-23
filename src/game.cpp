@@ -8,7 +8,17 @@ namespace rl {
 
 int Game::s_fps = 60;
 
-int Game::s_WindowWidth = 1920, Game::s_WindowHeight = 1080;
+int Game::s_WindowWidth = 1280, Game::s_WindowHeight = 960;
+
+Game::Game(std::string title)
+{
+    m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(Game::s_WindowWidth, Game::s_WindowHeight), title);
+    m_window->setFramerateLimit(Game::s_fps); // fps
+    // test
+    bg.setPosition(sf::Vector2f(64.f, 32.f));
+    bg.setSize(sf::Vector2f(768, 896));
+    bg.setFillColor(sf::Color(255, 255, 255));
+}
 
 void Game::run()
 {
@@ -23,26 +33,30 @@ void Game::run()
     }
 }
 
+std::vector<Bullet> blist;
+sf::Clock testClk;
+
 void Game::update()
 {
+    while(testClk.getElapsedTime().asSeconds() >= 1.f)
+    {
+        testClk.restart();
+        fmt::printf("siz= %d\n", blist.size());
+    }
+    for(int i = 0; i < 10; i++)
+        blist.push_back(Bullet(rand()%Game::s_WindowWidth, rand()%Game::s_WindowHeight));
     player.update();
 }
 
 void Game::draw()
 {
     sf::RenderWindow &window = *m_window;
-    // static Animation ani("test", 7, "assets/player/", "reimu-move{}.png");
-    // ani.duration = 0.9f;
-    // static float angle = 0.f;
-    // angle += 0.001f;
-    // static float radius = 50.f;
-    // ani.setScale(sf::Vector2f(5.f, 5.f));
-    // ani.setPosition(600 + radius * cos(angle * DEG2RAD),
-    //     400 + radius * sin(angle * DEG2RAD));
-    // ani.rotate(0.1f);
-    // ani.draw(window);
 
+    window.draw(bg);
     player.draw(window);
+
+    for(auto &i : blist)
+        i.draw(window);
 }
 
 void Game::processEvent()

@@ -11,6 +11,8 @@ Animation::Animation()
     m_count = m_nowFrame = 0;
     loop = true;
     reverse = false;
+
+    ready = false;
 }
 
 // TODO: sprite rotation
@@ -65,10 +67,12 @@ void Animation::loadRes()
             sf::Sprite &sprite = *m_spriteVec.back();
         }
     }
+    ready = true;
 }
 
 void Animation::draw(sf::RenderTarget &target)
 {
+    RL_ASSERT(ready, "Animation is not ready");
     float dur = reverse ? reverseDuration : duration;
     if (m_clk.getElapsedTime().asSeconds() >= dur / m_count)
     {
@@ -107,6 +111,7 @@ void Animation::draw(sf::RenderTarget &target)
 // TODO: change the end point to loop points
 bool Animation::isEnd()
 {
+    RL_ASSERT(ready, "Animation is not ready");
     if(loop) return false;
 
     if(reverse)
