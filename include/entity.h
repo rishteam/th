@@ -14,11 +14,12 @@ public:
     virtual void update();
     virtual void draw(sf::RenderTarget &target);
 
-    static float s_MoveUnit;
+    static float s_MoveUnit; // pixel per second
+    static float getMovePerFrame(float speed);
 
-    float x, y;
-    float speed;
-    float dir;
+    float x, y;   // position of a entity
+    float speed;  // speed of a entity
+    float dir;    // angle
     bool visible; // TODO: impl
     //
     sf::Clock clk;

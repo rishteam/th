@@ -1,4 +1,5 @@
 #include <string>
+#include <list>
 //
 #include <fmt/printf.h>
 //
@@ -33,18 +34,32 @@ void Game::run()
     }
 }
 
-std::vector<Bullet> blist;
+std::list<Bullet> validBullets;
 sf::Clock testClk;
 
 void Game::update()
 {
-    while(testClk.getElapsedTime().asSeconds() >= 1.f)
+    sf::RenderWindow &window = *m_window;
+    // TEST -------------------------------------
+    auto mPos = sf::Mouse::getPosition(window);
+
+    for(int i = 0; i < 100; i++)
     {
-        testClk.restart();
-        fmt::printf("siz= %d\n", blist.size());
+        validBullets.push_back(Bullet(mPos.x, mPos.y));
+        Bullet &b = validBullets.back();
+        b.dir = rand() % 360;
     }
-    for(int i = 0; i < 10; i++)
-        blist.push_back(Bullet(rand()%Game::s_WindowWidth, rand()%Game::s_WindowHeight));
+    for(auto it = validBullets.begin(); it != validBullets.end();)
+    {
+        it->update();
+        if(it->x <= -5 || it->x >= Game::s_WindowWidth+5 || it->y <= -5 || it->y >= Game::s_WindowHeight+5)
+        {
+            validBullets.erase(it++);
+        }
+        else
+            it++;
+    }
+    //
     player.update();
 }
 
@@ -55,7 +70,7 @@ void Game::draw()
     window.draw(bg);
     player.draw(window);
 
-    for(auto &i : blist)
+    for(auto &i : validBullets)
         i.draw(window);
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include <entity.h>
 
 namespace rl {
@@ -13,6 +15,7 @@ public:
     virtual void update() override;
     virtual void draw(sf::RenderTarget& target) override;
 
+    bool valid;
     float size;
 private:
     Animation bullet;
