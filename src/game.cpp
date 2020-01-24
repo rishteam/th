@@ -49,6 +49,8 @@ void Game::update()
     bMang.update();
     //
     player.update();
+
+    bMang.collideWith(player);
 }
 
 void Game::draw()

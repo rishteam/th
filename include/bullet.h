@@ -57,6 +57,8 @@ public:
     void update();
     void draw(sf::RenderTarget &target);
 
+    void collideWith(const Entity &ent);
+
     std::list<Bullet> bulletList;
 };
 }

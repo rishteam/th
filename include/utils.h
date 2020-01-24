@@ -3,6 +3,8 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+#include <SFML/System.hpp>
+
 namespace rl {
 
 #if defined(_WIN32)
@@ -21,5 +23,8 @@ constexpr double DEG2RAD = M_PI / 180.0;
 //     t.x += radius * cos(now);
 //     t.y += radius * sin(now);
 // }
+
+// Get the distance of two points (sf::Vector2f)
+float distance(const sf::Vector2f a, const sf::Vector2f b);
 
 }

@@ -20,6 +20,8 @@ Player::Player()
     y = Game::s_WindowHeight/2;
     nowAni->setPosition(x, y);
     Player::s_MoveUnit = 800;
+    collideType = Player::CollideType::Circle;
+    collideData.circle.radius = 10.f;
     // animation attributes
     hover.duration = 0.6f;
     hover.loop = true;

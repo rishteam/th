@@ -34,11 +34,11 @@ void BulletManager::update()
         break;
 
         case Bullet::BulletType::Rebound:
-            RL_WARN("Bullet::BulletType::Rebound isn't supported\n");
+            RL_ERROR("Bullet::BulletType::Rebound has not implemented yet.\n");
         break;
 
         case Bullet::BulletType::Script:
-            RL_WARN("Bullet::BulletType::Script isn't supported\n");
+            RL_ERROR("Bullet::BulletType::Script has not implemented yet.\n");
         break;
         }
     }
@@ -48,6 +48,18 @@ void BulletManager::draw(sf::RenderTarget &target)
 {
     for(auto &b : bulletList)
         b.draw(target);
+}
+
+void BulletManager::collideWith(const Entity &ent)
+{
+    for(auto it = bulletList.begin(); it != bulletList.end();)
+    {
+        Bullet &b = *it;
+        if(b.isCollideWith(ent))
+            bulletList.erase(it++);
+        else
+            it++;
+    }
 }
 
 //----------------------------------------------------------------------------------
@@ -64,6 +76,8 @@ Bullet::Bullet()
     shotByType = BulletShotByType::Nobody;
     // attributes
     Bullet::s_MoveUnit = 1000;
+    collideType = Bullet::CollideType::Circle;
+    collideData.circle.radius = 10.f;
 }
 
 Bullet::Bullet(BulletType type_, BulletShotByType shotByType_,

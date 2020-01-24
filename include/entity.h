@@ -6,6 +6,8 @@
 
 namespace rl {
 
+// TODO: implement rect, polygon collision
+
 class Entity
 {
 public:
@@ -18,9 +20,10 @@ public:
     static float getMovePerFrame(float speed);
 
     // Collision reloated
-    friend bool isCollide(const Entity &lhs, const Entity &rhs);
+    bool isCollideWith(const Entity &rhs);
     enum CollideType
     {
+        None,
         Circle,
         Rectangle, // TODO
         Polygon    // TODO

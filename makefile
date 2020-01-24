@@ -29,7 +29,7 @@ endif
 
 EXE=th
 SOURCES=main.cpp game.cpp
-SOURCES+= player.cpp bullet.cpp entity.cpp
+SOURCES+= player.cpp bullet.cpp entity.cpp utils.cpp
 SOURCES+= animation.cpp resManager.cpp log.cpp
 
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))
