@@ -25,4 +25,5 @@ void Entity::update()
 void Entity::draw(sf::RenderTarget &target)
 {
 }
+
 }

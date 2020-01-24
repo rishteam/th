@@ -120,7 +120,7 @@ void Player::processMove()
     float radAngle = Player::s_DirToAngle[playerDir] * DEG2RAD;
     if(playerDir != DirNone)
     {
-        float dis = Player::s_MoveUnit / Game::s_fps * speed;
+        float dis = Player::getMovePerFrame(speed);
         x += dis * cos(radAngle);
         y += dis * sin(radAngle);
         // fmt::printf("x=%.2f y=%.2f\n", x, y);

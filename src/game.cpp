@@ -34,8 +34,7 @@ void Game::run()
     }
 }
 
-std::list<Bullet> validBullets;
-sf::Clock testClk;
+BulletManager bMang;
 
 void Game::update()
 {
@@ -43,22 +42,11 @@ void Game::update()
     // TEST -------------------------------------
     auto mPos = sf::Mouse::getPosition(window);
 
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 20; i++)
     {
-        validBullets.push_back(Bullet(mPos.x, mPos.y));
-        Bullet &b = validBullets.back();
-        b.dir = rand() % 360;
+        bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
     }
-    for(auto it = validBullets.begin(); it != validBullets.end();)
-    {
-        it->update();
-        if(it->x <= -5 || it->x >= Game::s_WindowWidth+5 || it->y <= -5 || it->y >= Game::s_WindowHeight+5)
-        {
-            validBullets.erase(it++);
-        }
-        else
-            it++;
-    }
+    bMang.update();
     //
     player.update();
 }
@@ -70,8 +58,7 @@ void Game::draw()
     window.draw(bg);
     player.draw(window);
 
-    for(auto &i : validBullets)
-        i.draw(window);
+    bMang.draw(window);
 }
 
 void Game::processEvent()

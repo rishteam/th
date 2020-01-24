@@ -17,6 +17,37 @@ public:
     static float s_MoveUnit; // pixel per second
     static float getMovePerFrame(float speed);
 
+    // Collision reloated
+    friend bool isCollide(const Entity &lhs, const Entity &rhs);
+    enum CollideType
+    {
+        Circle,
+        Rectangle, // TODO
+        Polygon    // TODO
+    };
+    CollideType collideType;
+
+    struct CircleCollideData
+    {
+        float radius;
+    };
+    struct RectangleCollideData
+    {
+        float width, height;
+    };
+    struct PolygonCollideData
+    {
+        //TODO: implment PloygonCollideData
+    };
+    union CollideData
+    {
+        CircleCollideData circle;
+        RectangleCollideData rectangle;
+        PolygonCollideData polygon;
+    };
+    CollideData collideData;
+    //
+
     float x, y;   // position of a entity
     float speed;  // speed of a entity
     float dir;    // angle
