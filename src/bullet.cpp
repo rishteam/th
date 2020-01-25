@@ -23,8 +23,8 @@ void BulletManager::update()
         {
         case Bullet::BulletType::Disappear:
         {
-            if (b.x <= -5 || b.x >= Game::s_WindowWidth + 5
-            || b.y <= -5 || b.y >= Game::s_WindowHeight + 5)
+            if (b.x <= -5 || b.x >= g_WindowWidth + 5
+            || b.y <= -5 || b.y >= g_WindowHeight + 5)
             {
                 bulletList.erase(it++);
             }
@@ -56,7 +56,9 @@ void BulletManager::collideWith(const Entity &ent)
     {
         Bullet &b = *it;
         if(b.isCollideWith(ent))
+        {
             bulletList.erase(it++);
+        }
         else
             it++;
     }
@@ -64,20 +66,25 @@ void BulletManager::collideWith(const Entity &ent)
 
 //----------------------------------------------------------------------------------
 // Bullet
+
+float Bullet::s_MoveUnit = 1000;
+
 Bullet::Bullet()
 {
+    // Bullet::s_class = "Bullet";
+    //
     bullet.setInfo("round_red", 1, "assets/bullet/", "round_r.png");
     bullet.loadRes();
     //
     size = 1.f;
     valid = true;
+    width = height = 8;
     // type
     type = BulletType::None;
     shotByType = BulletShotByType::Nobody;
-    // attributes
-    Bullet::s_MoveUnit = 1000;
+    // Collision
     collideType = Bullet::CollideType::Circle;
-    collideData.circle.radius = 10.f;
+    collideData.circle.radius = std::max(width, height) * size;
 }
 
 Bullet::Bullet(BulletType type_, BulletShotByType shotByType_,
@@ -88,15 +95,15 @@ Bullet::Bullet(BulletType type_, BulletShotByType shotByType_,
     y = y_;
     size = size_;
     dir = dir_;
+    //
     type = type_;
     shotByType = shotByType_;
-
 }
 
 void Bullet::update()
 {
-    x += Bullet::getMovePerFrame(speed) * cos(dir * DEG2RAD);
-    y += Bullet::getMovePerFrame(speed) * sin(dir * DEG2RAD);
+    x += getMovePerFrame<Bullet>(speed) * cos(dir * DEG2RAD);
+    y += getMovePerFrame<Bullet>(speed) * sin(dir * DEG2RAD);
 }
 
 void Bullet::draw(sf::RenderTarget &target)

@@ -7,30 +7,50 @@ namespace rl {
 
 std::string Player::debugPlayerDir[Player::DirCount] = {"DirNone", "DirRight", "DirUpRight", "DirUp", "DirUpLeft", "DirLeft", "DirDownLeft", "DirDown", "DirDownRight"};
 
-float Player::s_DirToAngle[DirCount] = {-1.f, 0.f, 45.f, 90.f, 135.f, 180.f, 225.f, 270.f, 315.f};
+float Player::s_DirToAngle[DirCount] = {
+    -1.f,  // None
+    0.f,   // right
+    315.f, // up right
+    270.f, // up
+    225.f, // up left
+    180.f, // left
+    135.f, // down left
+    90.f,  // down
+    45.f   // down right
+};
+
+float Player::s_MoveUnit = 800;
 
 Player::Player()
     : hover("reimu-hover", 4, "assets/player/", "reimu-hover{}.png"),
       move("reimu-move", 7, "assets/player/", "reimu-move{}.png")
 {
+    // Player::s_class = "Player";
+    //
     playerDir = preDir = DirNone;
     nowAni = &hover;
     // player attributes
-    x = Game::s_WindowWidth/2;
-    y = Game::s_WindowHeight/2;
-    nowAni->setPosition(x, y);
-    Player::s_MoveUnit = 800;
+    x = g_WindowWidth/2;
+    y = g_WindowHeight/2;
+    //
+    judgePointX = 15;
+    judgePointY = 21;
+    judgePointRadius = 4;
+
+    size = 2.0f;
+    // Collision
     collideType = Player::CollideType::Circle;
-    collideData.circle.radius = 10.f;
+    collideData.circle.radius = (float)judgePointRadius * size;
+    //
     // animation attributes
     hover.duration = 0.6f;
     hover.loop = true;
-    hover.setScale(sf::Vector2f(2.f, 2.f));
+    hover.setScale(sf::Vector2f(size, size));
 
     move.duration = 0.8f;
     move.reverseDuration = 0.25f;
     move.loop = false;
-    move.setScale(sf::Vector2f(2.f, 2.f));
+    move.setScale(sf::Vector2f(size, size));
 }
 
 void Player::update()
@@ -52,14 +72,15 @@ void Player::update()
         nowAni = &move;
         if(isRight(playerDir))
         {
-            move.setOrigin(sf::Vector2f(move.getLocalBound().width, 0.f));
-            move.setScale(sf::Vector2f(-2.f, 2.f));
+            move.setOrigin(sf::Vector2f(move.getOrigInfo().width, 0.f));
+            move.setScale(sf::Vector2f(-size, size));
         }
         else if(isLeft(playerDir))
         {
             move.setOrigin(sf::Vector2f(0.f, 0.f));
-            move.setScale(sf::Vector2f(2.f, 2.f));
+            move.setScale(sf::Vector2f(size, size));
         }
+
     }
     // When dir state changes to DirNone
     if(preDir != DirNone && playerDir == DirNone)
@@ -82,8 +103,25 @@ void Player::draw(sf::RenderTarget &target)
 {
     // Entity::draw(target);
     RL_ASSERT(nowAni, "Current animation is nullptr");
-    nowAni->setPosition(x, Game::s_WindowHeight-y); // to screen coordinate
+    float tx = getX(), ty = getY();
+    nowAni->setPosition(tx, ty);
     nowAni->draw(target);
+
+    // Draw debug rect
+    sf::RectangleShape rect(sf::Vector2f(32 * size, 48 * size));
+    rect.setPosition(sf::Vector2f(tx, ty));
+    rect.setFillColor(sf::Color(255, 255, 255, 0));
+    rect.setOutlineColor(sf::Color(255, 0, 0));
+    rect.setOutlineThickness(2);
+    target.draw(rect);
+
+    // Draw judge point
+    float radius = judgePointRadius * size;
+    sf::CircleShape cir(radius);
+    cir.setOrigin(sf::Vector2f(radius/2, radius/2));
+    cir.setPosition(getCentX(), getCentY());
+    cir.setFillColor(sf::Color(255, 0, 0));
+    target.draw(cir);
 }
 
 void Player::processInput()
@@ -120,12 +158,12 @@ void Player::processMove()
 {
     RL_ASSERT(playerDir >= DirNone && playerDir < DirCount, "Invalid playerDir");
     float radAngle = Player::s_DirToAngle[playerDir] * DEG2RAD;
+    // fmt::printf("%.2f\n", Player::s_MoveUnit);
     if(playerDir != DirNone)
     {
-        float dis = Player::getMovePerFrame(speed);
+        float dis = getMovePerFrame<Player>(speed);
         x += dis * cos(radAngle);
         y += dis * sin(radAngle);
-        // fmt::printf("x=%.2f y=%.2f\n", x, y);
     }
 }
 

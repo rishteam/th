@@ -27,6 +27,8 @@ ifeq ($(UNAME_S),Darwin) # macOS
 	LIBS=$(D_LIB)
 endif
 
+DEBUG=
+
 EXE=th
 SOURCES=main.cpp game.cpp
 SOURCES+= player.cpp bullet.cpp entity.cpp utils.cpp
@@ -35,13 +37,13 @@ SOURCES+= animation.cpp resManager.cpp log.cpp
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))
 
 %.o:src/%.cpp
-	$(CXX) $(CXXFLAGS) $(INC_PATH) $(LIB_PATH) $(DEFINE) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INC_PATH) $(LIB_PATH) $(DEFINE) $(DEBUG) -c $< -o $@
 
 all: $(EXE)
 	@echo Build complete for $(EXE)
 
 $(EXE): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(INC_PATH) $(LIB_PATH) $^ $(LIBS) -o $@
+	$(CXX) $(CXXFLAGS) $(INC_PATH) $(LIB_PATH) $(DEBUG) $^ $(LIBS) -o $@
 
 .PHONY: clean
 clean:

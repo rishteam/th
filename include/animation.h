@@ -2,10 +2,12 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include <SFML/Graphics.hpp>
 
 #include <fmt/core.h>
+#include <fmt/printf.h>
 
 #include <core.h>
 
@@ -38,11 +40,40 @@ public:
     bool reverse;
 
     bool isEnd();
-    sf::FloatRect getLocalBound()
+
+    struct AniInfo
     {
-        if(m_spriteVec.empty()) return sf::FloatRect();
-        else return m_spriteVec.back()->getLocalBounds();
+        float x, y;
+        float width, height;
+        float angle;
+    };
+    const AniInfo& getAnimationInfo()
+    {
+        RL_ASSERT(!m_spriteVec.empty(), "The sprite vector is empty\n");
+        auto bound = m_spriteVec.back()->getLocalBounds();
+        float size = std::max(fabs(getScale().x), fabs(getScale().y));
+        static AniInfo info;
+        info.x = bound.left;
+        info.y = bound.top;
+        info.width = bound.width * size;
+        info.height = bound.height * size;
+        info.angle = getRotation();
+        return info;
     }
+
+    const AniInfo& getOrigInfo()
+    {
+        RL_ASSERT(!m_spriteVec.empty(), "The sprite vector is empty\n");
+        auto bound = m_spriteVec.back()->getLocalBounds();
+        static AniInfo info;
+        info.x = bound.left;
+        info.y = bound.top;
+        info.width = bound.width;
+        info.height = bound.height;
+        info.angle = getRotation();
+        return info;
+    }
+
     void resetFrame() { m_nowFrame = 0; }
     int getNowFrame() { return m_nowFrame; }
 

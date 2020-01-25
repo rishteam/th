@@ -10,6 +10,8 @@ namespace rl {
 class Bullet : public Entity
 {
 public:
+    static float s_MoveUnit; // pixel per second
+
     enum BulletType
     {
         None,
@@ -34,7 +36,24 @@ public:
            float x_, float y_, float size_, float dir_);
 
     virtual void update() override;
+    void update(float x_, float y_)
+    {
+        x = x_;
+        y = y_;
+    }
     virtual void draw(sf::RenderTarget& target) override;
+
+    virtual float getCentX() const override
+    {
+        fmt::printf("Bullet ver\n");
+        return x + width * size;
+    }
+    virtual float getCentY() const override
+    {
+        return y + height * size;
+    }
+
+    int width, height;
 
     bool valid;
     float size;

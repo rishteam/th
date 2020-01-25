@@ -1,16 +1,10 @@
 #include <entity.h>
-#include <game.h>
 #include <utils.h>
 #include <log.h>
 
 namespace rl {
 
-float Entity::s_MoveUnit = 1.f;
-
-float Entity::getMovePerFrame(float speed)
-{
-    return (Entity::s_MoveUnit * speed) / Game::s_fps;
-}
+// std::string Entity::s_class = "Entity";
 
 Entity::Entity()
 {
@@ -38,9 +32,9 @@ bool Entity::isCollideWith(const Entity &rhs)
         if(rhs.collideType == Circle)
         {
             float dis = collideData.circle.radius + rhs.collideData.circle.radius;
-            RL_DEBUG("{} {}", collideData.circle.radius, rhs.collideData.circle.radius);
-            // RL_DEBUG("{} {}\n", distance(sf::Vector2f(x, y), sf::Vector2f(rhs.x, rhs.y)), dis);
-            return distance(sf::Vector2f(x, y), sf::Vector2f(rhs.x, rhs.y)) < dis;
+            // fmt::printf("%.2f %.2f / %.2f\n", collideData.circle.radius, rhs.collideData.circle.radius,
+            //     sqrt(distance(sf::Vector2f(getCentX(), getCentY()), sf::Vector2f(rhs.getCentX(), rhs.getCentY()))));
+            return distance(sf::Vector2f(getCentX(), getCentY()), sf::Vector2f(rhs.getCentX(), rhs.getCentY())) < dis*dis;
         }
         else
         {

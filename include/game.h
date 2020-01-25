@@ -15,7 +15,6 @@ class Game
 {
 public:
     static int s_fps;
-    static int s_WindowWidth, s_WindowHeight;
 
     Game(std::string title);
     // Run the game
@@ -39,4 +38,11 @@ private:
     Player player;
 };
 
+template <typename T>
+float getMovePerFrame(float speed)
+{
+    return (T::s_MoveUnit * speed) / Game::s_fps;
+}
+
+extern int g_WindowWidth, g_WindowHeight;
 }

@@ -7,13 +7,13 @@
 
 namespace rl {
 
+// Game attributes
 int Game::s_fps = 60;
-
-int Game::s_WindowWidth = 1280, Game::s_WindowHeight = 960;
+int g_WindowWidth = 1280, g_WindowHeight = 960;
 
 Game::Game(std::string title)
 {
-    m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(Game::s_WindowWidth, Game::s_WindowHeight), title);
+    m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(g_WindowWidth, g_WindowHeight), title);
     m_window->setFramerateLimit(Game::s_fps); // fps
     // test
     bg.setPosition(sf::Vector2f(64.f, 32.f));
@@ -35,6 +35,8 @@ void Game::run()
 }
 
 BulletManager bMang;
+Bullet b(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCnormal,
+        0, 0, 1.f, 0);
 
 void Game::update()
 {
@@ -42,15 +44,25 @@ void Game::update()
     // TEST -------------------------------------
     auto mPos = sf::Mouse::getPosition(window);
 
-    for(int i = 0; i < 20; i++)
-    {
-        bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
-    }
-    bMang.update();
+    // for(int i = 0; i < 5; i++)
+    // {
+    //     bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
+    // }
+    // bMang.update();
+
+    b.update(mPos.x, mPos.y);
     //
     player.update();
 
-    bMang.collideWith(player);
+    // bMang.collideWith(player);
+    if(b.isCollideWith(player))
+    {
+        RL_DEBUG("Collide");
+    }
+    else
+    {
+        RL_DEBUG("not");
+    }
 }
 
 void Game::draw()
@@ -59,8 +71,9 @@ void Game::draw()
 
     window.draw(bg);
     player.draw(window);
+    b.draw(window);
 
-    bMang.draw(window);
+    // bMang.draw(window);
 }
 
 void Game::processEvent()

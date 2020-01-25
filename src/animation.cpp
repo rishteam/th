@@ -105,6 +105,8 @@ void Animation::draw(sf::RenderTarget &target)
     }
     sf::Sprite &now = *m_spriteVec[m_nowFrame];
     const sf::Transform &trans = getTransform();
+    // const sf::Vector2f &origin = getOrigin();
+    // now.setOrigin(origin);
     target.draw(now, trans);
 }
 

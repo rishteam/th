@@ -12,6 +12,8 @@ class Player : public Entity
 public:
     Player();
 
+    static float s_MoveUnit; // pixel per second
+
     virtual void update() override;
     virtual void draw(sf::RenderTarget &target) override;
 
@@ -32,6 +34,19 @@ public:
 
     static float s_DirToAngle[DirCount];
     static std::string debugPlayerDir[DirCount];
+
+    float judgePointX , judgePointY , judgePointRadius;
+    float size;
+
+    virtual float getCentX() const override
+    {
+        fmt::printf("Player ver\n");
+        return x + judgePointX * size;
+    }
+    virtual float getCentY() const override
+    {
+        return y + judgePointY * size;
+    }
 
 private:
     void processInput();

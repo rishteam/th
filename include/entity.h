@@ -6,18 +6,19 @@
 
 namespace rl {
 
-// TODO: implement rect, polygon collision
+extern int g_WindowWidth, g_WindowHeight; // workaround
 
+// TODO: implement rect, polygon collision
 class Entity
 {
 public:
+    // static std::string s_class;
+    // std::string id;
+
     Entity();
 
     virtual void update();
     virtual void draw(sf::RenderTarget &target);
-
-    static float s_MoveUnit; // pixel per second
-    static float getMovePerFrame(float speed);
 
     // Collision reloated
     bool isCollideWith(const Entity &rhs);
@@ -51,7 +52,17 @@ public:
     CollideData collideData;
     //
 
-    float x, y;   // position of a entity
+    // Get x coordinate of left upper corner
+    virtual float getX() const { return x; }
+    // Get y coordinate of left upper corner
+    virtual float getY() const { return y; }
+    // Get x coordinate of the center
+    virtual float getCentX() const { return x; }
+    // Get y coordinate of the center
+    virtual float getCentY() const { return y; }
+    //
+    float x, y;   // left upper corner
+    // float cx, cy; // center coordinate of a obj
     float speed;  // speed of a entity
     float dir;    // angle
     bool visible; // TODO: impl
