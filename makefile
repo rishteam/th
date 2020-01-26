@@ -27,7 +27,7 @@ ifeq ($(UNAME_S),Darwin) # macOS
 	LIBS=$(D_LIB)
 endif
 
-DEBUG=
+DEBUG=-g
 
 EXE=th
 SOURCES=main.cpp game.cpp
