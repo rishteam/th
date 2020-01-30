@@ -51,7 +51,7 @@ public:
     };
     CollideData collideData;
     //
-
+    // Entity Coordinate
     // Get x coordinate of left upper corner
     virtual float getX() const { return x; }
     // Get y coordinate of left upper corner
@@ -61,7 +61,12 @@ public:
     // Get y coordinate of the center
     virtual float getCentY() const { return y; }
     //
-    float x, y;   // left upper corner
+    // Get x coordinate of the left upper corner in draw coordinate
+    virtual float getDrawX() const { return x; }
+    // Get y coordinate of the left upper corner in draw coordinate
+    virtual float getDrawY() const { return g_WindowHeight - y; }
+    //
+    float x, y;   // center coordinate
     // float cx, cy; // center coordinate of a obj
     float speed;  // speed of a entity
     float dir;    // angle

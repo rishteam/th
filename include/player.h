@@ -38,9 +38,10 @@ public:
     float judgePointX , judgePointY , judgePointRadius;
     float size;
 
+    bool stateChanged;
+
     virtual float getCentX() const override
     {
-        fmt::printf("Player ver\n");
         return x + judgePointX * size;
     }
     virtual float getCentY() const override

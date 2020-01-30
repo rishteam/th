@@ -32,9 +32,11 @@ bool Entity::isCollideWith(const Entity &rhs)
         if(rhs.collideType == Circle)
         {
             float dis = collideData.circle.radius + rhs.collideData.circle.radius;
+            dis = dis * dis;
             // fmt::printf("%.2f %.2f / %.2f\n", collideData.circle.radius, rhs.collideData.circle.radius,
             //     sqrt(distance(sf::Vector2f(getCentX(), getCentY()), sf::Vector2f(rhs.getCentX(), rhs.getCentY()))));
-            return distance(sf::Vector2f(getCentX(), getCentY()), sf::Vector2f(rhs.getCentX(), rhs.getCentY())) < dis*dis;
+            float tmp = distance(sf::Vector2f(getCentX(), getCentY()), sf::Vector2f(rhs.getCentX(), rhs.getCentY()));
+            return tmp < dis;
         }
         else
         {

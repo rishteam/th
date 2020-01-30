@@ -1,3 +1,5 @@
+#include <iostream>
+#include <cstdlib>
 #include <string>
 #include <list>
 //
@@ -26,6 +28,7 @@ void Game::run()
     sf::RenderWindow &window = *m_window;
     while (window.isOpen())
     {
+        system("clear");
         processEvent();
         update();
         window.clear();
@@ -37,6 +40,8 @@ void Game::run()
 BulletManager bMang;
 Bullet b(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCnormal,
         0, 0, 1.f, 0);
+Bullet c(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCnormal,
+         0, 0, 1.f, 0);
 
 void Game::update()
 {
@@ -44,18 +49,28 @@ void Game::update()
     // TEST -------------------------------------
     auto mPos = sf::Mouse::getPosition(window);
 
+    fmt::printf("%d %d\n", mPos.x, g_WindowHeight - mPos.y);
+
     // for(int i = 0; i < 5; i++)
     // {
     //     bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
     // }
     // bMang.update();
 
-    b.update(mPos.x, mPos.y);
+    static float off = 0;
+    b.update(100, 150);
+    c.update(100, 150 + off);
+    if(player.stateChanged)
+    {
+        off += 1.f;
+    }
     //
+    // player.x = 170;
+    // player.y = 150;
     player.update();
 
     // bMang.collideWith(player);
-    if(b.isCollideWith(player))
+    if(b.isCollideWith(c))
     {
         RL_DEBUG("Collide");
     }
@@ -70,9 +85,9 @@ void Game::draw()
     sf::RenderWindow &window = *m_window;
 
     window.draw(bg);
-    player.draw(window);
+    // player.draw(window);
     b.draw(window);
-
+    c.draw(window);
     // bMang.draw(window);
 }
 

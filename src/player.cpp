@@ -30,12 +30,14 @@ Player::Player()
     playerDir = preDir = DirNone;
     nowAni = &hover;
     // player attributes
-    x = g_WindowWidth/2;
-    y = g_WindowHeight/2;
+    x = 0;
+    y = 0;
     //
     judgePointX = 15;
     judgePointY = 21;
     judgePointRadius = 4;
+
+    stateChanged = false;
 
     size = 2.0f;
     // Collision
@@ -60,6 +62,11 @@ void Player::update()
     processInput();
     //
     processMove();
+
+    if(preDir == DirNone && playerDir != DirNone)
+        stateChanged = true;
+    else
+        stateChanged = false;
     // ----------------------------------------
     // Animation
     static bool moved = false;

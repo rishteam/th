@@ -3,6 +3,7 @@
 #include <cmath>
 #include <list>
 
+#include <game.h>
 #include <entity.h>
 
 namespace rl {
@@ -36,21 +37,36 @@ public:
            float x_, float y_, float size_, float dir_);
 
     virtual void update() override;
-    void update(float x_, float y_)
+    void update(float x_, float y_) // for debug
     {
         x = x_;
         y = y_;
     }
     virtual void draw(sf::RenderTarget& target) override;
 
+    virtual float getX() const override
+    {
+        return x - width * size / 2;
+    }
+    virtual float getY() const override
+    {
+        return y + height * size / 2;
+    }
     virtual float getCentX() const override
     {
-        fmt::printf("Bullet ver\n");
-        return x + width * size;
+        return x;
     }
     virtual float getCentY() const override
     {
-        return y + height * size;
+        return y;
+    }
+    virtual float getDrawX() const override
+    {
+        return getX();
+    }
+    virtual float getDrawY() const override
+    {
+        return g_WindowHeight - getY();
     }
 
     int width, height;

@@ -84,7 +84,7 @@ Bullet::Bullet()
     shotByType = BulletShotByType::Nobody;
     // Collision
     collideType = Bullet::CollideType::Circle;
-    collideData.circle.radius = std::max(width, height) * size;
+    collideData.circle.radius = std::min(width, height) * size;
 }
 
 Bullet::Bullet(BulletType type_, BulletShotByType shotByType_,
@@ -108,7 +108,7 @@ void Bullet::update()
 
 void Bullet::draw(sf::RenderTarget &target)
 {
-    bullet.setPosition(x, y);
+    bullet.setPosition(getDrawX(), getDrawY());
     bullet.setScale(sf::Vector2f(size, size));
     bullet.draw(target);
 }
