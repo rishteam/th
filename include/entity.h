@@ -61,11 +61,6 @@ public:
     // Get y coordinate of the center
     virtual float getCentY() const { return y; }
     //
-    // Get x coordinate of the left upper corner in draw coordinate
-    virtual float getDrawX() const { return x; }
-    // Get y coordinate of the left upper corner in draw coordinate
-    virtual float getDrawY() const { return g_WindowHeight - y; }
-    //
     float x, y;   // center coordinate
     // float cx, cy; // center coordinate of a obj
     float speed;  // speed of a entity

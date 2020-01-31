@@ -37,16 +37,26 @@ public:
 
     float judgePointX , judgePointY , judgePointRadius;
     float size;
+    float width, height; // TODO
 
     bool stateChanged;
 
+    virtual float getX() const override
+    {
+        return x - judgePointX * size;
+    }
+    virtual float getY() const override
+    {
+        return y - judgePointY * size;
+    }
+
     virtual float getCentX() const override
     {
-        return x + judgePointX * size;
+        return x;
     }
     virtual float getCentY() const override
     {
-        return y + judgePointY * size;
+        return y;
     }
 
 private:

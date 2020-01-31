@@ -35,7 +35,7 @@ Player::Player()
     //
     judgePointX = 15;
     judgePointY = 21;
-    judgePointRadius = 4;
+    judgePointRadius = 3; // TODO: Check the proper radius
 
     stateChanged = false;
 
@@ -60,7 +60,6 @@ void Player::update()
     // Entity::update();
     //
     processInput();
-    //
     processMove();
 
     if(preDir == DirNone && playerDir != DirNone)
@@ -125,7 +124,7 @@ void Player::draw(sf::RenderTarget &target)
     // Draw judge point
     float radius = judgePointRadius * size;
     sf::CircleShape cir(radius);
-    cir.setOrigin(sf::Vector2f(radius/2, radius/2));
+    cir.setOrigin(sf::Vector2f(radius, radius));
     cir.setPosition(getCentX(), getCentY());
     cir.setFillColor(sf::Color(255, 0, 0));
     target.draw(cir);

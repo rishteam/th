@@ -28,7 +28,6 @@ void Game::run()
     sf::RenderWindow &window = *m_window;
     while (window.isOpen())
     {
-        system("clear");
         processEvent();
         update();
         window.clear();
@@ -38,10 +37,6 @@ void Game::run()
 }
 
 BulletManager bMang;
-Bullet b(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCnormal,
-        0, 0, 1.f, 0);
-Bullet c(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCnormal,
-         0, 0, 1.f, 0);
 
 void Game::update()
 {
@@ -49,34 +44,17 @@ void Game::update()
     // TEST -------------------------------------
     auto mPos = sf::Mouse::getPosition(window);
 
-    fmt::printf("%d %d\n", mPos.x, mPos.y);
-
-    // for(int i = 0; i < 5; i++)
-    // {
-    //     bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
-    // }
-    // bMang.update();
-
-    static float off = 0;
-    b.update(0, 0);
-    c.update(0, 0 + off);
-    if(player.stateChanged)
+    for(int i = 0; i < 5; i++)
     {
-        off += 1.f;
+        bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
     }
+    bMang.update();
     //
-    // player.x = 170;
-    // player.y = 150;
     player.update();
 
-    // bMang.collideWith(player);
-    if(b.isCollideWith(c))
+    if(bMang.collideWith(player))
     {
-        RL_DEBUG("Collide");
-    }
-    else
-    {
-        RL_DEBUG("not");
+        RL_DEBUG("Hit by bullet");
     }
 }
 
@@ -85,10 +63,8 @@ void Game::draw()
     sf::RenderWindow &window = *m_window;
 
     window.draw(bg);
-    // player.draw(window);
-    b.draw(window);
-    c.draw(window);
-    // bMang.draw(window);
+    player.draw(window);
+    bMang.draw(window);
 }
 
 void Game::processEvent()

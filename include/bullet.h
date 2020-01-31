@@ -8,6 +8,12 @@
 
 namespace rl {
 
+// Globals
+
+extern const char * g_BulletShotBTypeName[];
+extern const char * g_BulletTypeName[];
+
+//
 class Bullet : public Entity
 {
 public:
@@ -84,7 +90,7 @@ public:
     void update();
     void draw(sf::RenderTarget &target);
 
-    void collideWith(const Entity &ent);
+    bool collideWith(const Entity &ent);
 
     std::list<Bullet> bulletList;
 };
