@@ -50,7 +50,7 @@ public:
     }
     virtual float getY() const override
     {
-        return y + height * size / 2;
+        return y - height * size / 2;
     }
     virtual float getCentX() const override
     {
@@ -59,14 +59,6 @@ public:
     virtual float getCentY() const override
     {
         return y;
-    }
-    virtual float getDrawX() const override
-    {
-        return getX();
-    }
-    virtual float getDrawY() const override
-    {
-        return g_WindowHeight - getY();
     }
 
     int width, height;

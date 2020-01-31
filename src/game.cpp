@@ -49,7 +49,7 @@ void Game::update()
     // TEST -------------------------------------
     auto mPos = sf::Mouse::getPosition(window);
 
-    fmt::printf("%d %d\n", mPos.x, g_WindowHeight - mPos.y);
+    fmt::printf("%d %d\n", mPos.x, mPos.y);
 
     // for(int i = 0; i < 5; i++)
     // {
@@ -58,8 +58,8 @@ void Game::update()
     // bMang.update();
 
     static float off = 0;
-    b.update(100, 150);
-    c.update(100, 150 + off);
+    b.update(0, 0);
+    c.update(0, 0 + off);
     if(player.stateChanged)
     {
         off += 1.f;

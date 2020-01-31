@@ -108,7 +108,7 @@ void Bullet::update()
 
 void Bullet::draw(sf::RenderTarget &target)
 {
-    bullet.setPosition(getDrawX(), getDrawY());
+    bullet.setPosition(getX(), getY());
     bullet.setScale(sf::Vector2f(size, size));
     bullet.draw(target);
 }
