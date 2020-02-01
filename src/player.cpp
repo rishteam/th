@@ -32,14 +32,18 @@ Player::Player()
     // player attributes
     x = 0;
     y = 0;
-    //
-    judgePointX = 15;
-    judgePointY = 21;
+    // Judge point collision
+    judgePointX = 16;
+    judgePointY = 25;
     judgePointRadius = 3; // TODO: Check the proper radius
-
-    stateChanged = false;
-
+    // Body collision
+    bodyColX = 8;
+    bodyColY = 5;
+    bodyColW = 17;
+    bodyColH = 43;
     size = 2.0f;
+    //
+    stateChanged = false;
     // Collision
     collideType = Player::CollideType::Circle;
     collideData.circle.radius = (float)judgePointRadius * size;

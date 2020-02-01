@@ -34,8 +34,10 @@ public:
 
     static float s_DirToAngle[DirCount];
     static std::string debugPlayerDir[DirCount];
-
+    // Judge point collision
     float judgePointX , judgePointY , judgePointRadius;
+    // Body collision
+    float bodyColX, bodyColY, bodyColW, bodyColH;
     float size;
     float width, height; // TODO
 
