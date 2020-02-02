@@ -32,21 +32,25 @@ Player::Player()
     // player attributes
     x = 0;
     y = 0;
-    // Judge point collision
-    judgePointX = 16;
-    judgePointY = 25;
-    judgePointRadius = 3; // TODO: Check the proper radius
-    // Body collision
-    bodyColX = 8;
-    bodyColY = 5;
-    bodyColW = 17;
-    bodyColH = 43;
     size = 2.0f;
+    // Judge point collision
+    judgePointX = 16 * size;
+    judgePointY = 25 * size;
+    judgePointRadius = 3 * size; // TODO: Check the proper radius
+    // Body collision
+    bodyColX = 8  * size;
+    bodyColY = 5  * size;
+    bodyColW = 17 * size;
+    bodyColH = 43 * size;
     //
     stateChanged = false;
     // Collision
-    collideType = Player::CollideType::Circle;
-    collideData.circle.radius = (float)judgePointRadius * size;
+    judge.type = CollideType::Circle;
+    judge.data.circle.radius = (float)judgePointRadius;
+
+    body.type = CollideType::Rectangle;
+    body.data.rectangle.width = bodyColW;
+    body.data.rectangle.height = bodyColH;
     //
     // animation attributes
     hover.duration = 0.6f;
@@ -57,6 +61,12 @@ Player::Player()
     move.reverseDuration = 0.25f;
     move.loop = false;
     move.setScale(sf::Vector2f(size, size));
+}
+
+Player::Player(float x_, float y_) : Player()
+{
+    x = x_;
+    y = y_;
 }
 
 void Player::update()
@@ -107,6 +117,28 @@ void Player::update()
     }
     //
     preDir = playerDir;
+    slow = false;
+
+    // TODO(collision): Thinking more elegant way to update
+    // Update colliders
+    judge.data.circle.x = getCentX();
+    judge.data.circle.y = getCentY();
+    // body.data.rectangle.x = getX() + bodyColX;
+    // body.data.rectangle.y = getY() + bodyColY;
+
+    // TODO: dirty 64 32 768 896
+    if(x < 64) x = 64;
+    if(x > 64+768) x = 64+768;
+    if(y < 32) y = 32;
+    if(y > 32+896) y = 32+896;
+    // float lx = getX()+bodyColX, ly = getY()+bodyColY;
+    // float p[4][2] = {
+    //     {lx, ly},
+    //     {lx+bodyColW, ly},
+    //     {lx+bodyColW, ly+bodyColH},
+    //     {lx, ly+bodyColH}
+    // };
+    // if()
 }
 
 void Player::draw(sf::RenderTarget &target)
@@ -123,10 +155,18 @@ void Player::draw(sf::RenderTarget &target)
     rect.setFillColor(sf::Color(255, 255, 255, 0));
     rect.setOutlineColor(sf::Color(255, 0, 0));
     rect.setOutlineThickness(2);
-    target.draw(rect);
+    // target.draw(rect);
+
+    // Draw body collider
+    sf::RectangleShape bodyRect(sf::Vector2f(bodyColW, bodyColH));
+    bodyRect.setPosition(sf::Vector2f(tx+bodyColX, ty+bodyColY));
+    bodyRect.setFillColor(sf::Color(255, 255, 255, 0));
+    bodyRect.setOutlineColor(sf::Color(255, 0, 0));
+    bodyRect.setOutlineThickness(2);
+    // target.draw(bodyRect);
 
     // Draw judge point
-    float radius = judgePointRadius * size;
+    float radius = judgePointRadius;
     sf::CircleShape cir(radius);
     cir.setOrigin(sf::Vector2f(radius, radius));
     cir.setPosition(getCentX(), getCentY());
@@ -162,12 +202,19 @@ void Player::processInput()
     {
         playerDir = DirNone;
     }
+
+    slow = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 }
 
 void Player::processMove()
 {
     RL_ASSERT(playerDir >= DirNone && playerDir < DirCount, "Invalid playerDir");
     float radAngle = Player::s_DirToAngle[playerDir] * DEG2RAD;
+
+    if(slow)
+        speed = 0.5f;
+    else
+        speed = 1.0f;
     // fmt::printf("%.2f\n", Player::s_MoveUnit);
     if(playerDir != DirNone)
     {

@@ -4,6 +4,7 @@
 
 #include <core.h>
 #include <entity.h>
+#include <collision.h>
 
 namespace rl {
 
@@ -11,11 +12,17 @@ class Player : public Entity
 {
 public:
     Player();
+    Player(float x_, float y_);
 
     static float s_MoveUnit; // pixel per second
 
     virtual void update() override;
     virtual void draw(sf::RenderTarget &target) override;
+    void reset()
+    {
+        x = 416;
+        y = 700;
+    }
 
     enum PlayerDir
     {
@@ -41,15 +48,18 @@ public:
     float size;
     float width, height; // TODO
 
+    // Colliders
+    Collider body;
+
     bool stateChanged;
 
     virtual float getX() const override
     {
-        return x - judgePointX * size;
+        return x - judgePointX;
     }
     virtual float getY() const override
     {
-        return y - judgePointY * size;
+        return y - judgePointY;
     }
 
     virtual float getCentX() const override
@@ -69,6 +79,7 @@ private:
     bool isRight(PlayerDir dir) { return playerDir == DirRight || playerDir == DirUpRight || playerDir == DirDownRight; }
 
     PlayerDir playerDir, preDir;
+    bool slow;
     Animation hover, move;
     Animation *nowAni;
 };

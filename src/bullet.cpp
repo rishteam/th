@@ -1,5 +1,6 @@
 #include <game.h>
 #include <bullet.h>
+#include <collision.h>
 #include <utils.h>
 #include <core.h>
 #include <log.h>
@@ -40,18 +41,19 @@ Bullet::Bullet()
     type = BulletType::None;
     shotByType = BulletShotByType::Nobody;
     // Collision
-    collideType = Bullet::CollideType::Circle;
-    collideData.circle.radius = assetRadius * size;
+    judge.type = CollideType::Circle;
+    judge.data.circle.radius = assetRadius * size;
 }
 
 Bullet::Bullet(BulletType type_, BulletShotByType shotByType_,
-               float x_, float y_, float size_, float dir_)
+               float x_, float y_, float size_, float dir_, float speed_)
     : Bullet()
 {
     x = x_;
     y = y_;
     size = size_;
     dir = dir_;
+    speed = speed_;
     //
     type = type_;
     shotByType = shotByType_;
@@ -61,6 +63,9 @@ void Bullet::update()
 {
     x += getMovePerFrame<Bullet>(speed) * cos(dir * DEG2RAD);
     y += getMovePerFrame<Bullet>(speed) * sin(dir * DEG2RAD);
+    // TODO(collision): Thinking more elegant way to update
+    judge.data.circle.x = x;
+    judge.data.circle.y = y;
 }
 
 void Bullet::draw(sf::RenderTarget &target)
@@ -87,7 +92,7 @@ void BulletManager::update()
         {
         case Bullet::BulletType::Disappear:
         {
-            if (b.x <= -5 || b.x >= g_WindowWidth + 5 || b.y <= -5 || b.y >= g_WindowHeight + 5)
+            if (b.x <= g_GameX - b.width || b.x >= g_GameX + g_GameWidth + b.width || b.y <= g_GameY - b.height || b.y >= g_GameY+ g_GameHeight + b.height)
             {
                 bulletList.erase(it++);
             }
@@ -119,7 +124,7 @@ bool BulletManager::collideWith(const Entity &ent)
     for (auto it = bulletList.begin(); it != bulletList.end();)
     {
         Bullet &b = *it;
-        if (b.isCollideWith(ent))
+        if(isCollideWith(b.judge, ent.judge))
         {
             bulletList.erase(it++);
             res = true;

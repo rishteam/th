@@ -30,9 +30,9 @@ endif
 DEBUG=-g
 
 EXE=th
-SOURCES=main.cpp game.cpp
+SOURCES=main.cpp game.cpp stage.cpp
 SOURCES+= player.cpp bullet.cpp entity.cpp utils.cpp
-SOURCES+= animation.cpp resManager.cpp log.cpp
+SOURCES+= collision.cpp animation.cpp resManager.cpp log.cpp
 
 OBJS=$(addsuffix .o, $(basename $(notdir $(SOURCES))))
 

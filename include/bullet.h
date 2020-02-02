@@ -3,7 +3,6 @@
 #include <cmath>
 #include <list>
 
-#include <game.h>
 #include <entity.h>
 
 namespace rl {
@@ -40,7 +39,7 @@ public:
 
     Bullet();
     Bullet(BulletType type_, BulletShotByType shotByType_,
-           float x_, float y_, float size_, float dir_);
+           float x_, float y_, float size_, float dir_, float speed_);
 
     virtual void update() override;
     void update(float x_, float y_) // for debug
@@ -73,6 +72,8 @@ public:
     float size;
     BulletType type;
     BulletShotByType shotByType;
+    // Collision related
+
 private:
 
     Animation bullet;
@@ -81,16 +82,25 @@ private:
 class BulletManager
 {
 public:
-    void addBullet(Bullet::BulletType type, Bullet::BulletShotByType shotByType,
-                   float x, float y, float size, float dir)
+    BulletManager()
     {
-        bulletList.push_back(Bullet(type, shotByType, x, y, size, dir));
+        speed = 1.f;
+    }
+    void addBullet(Bullet::BulletType type, Bullet::BulletShotByType shotByType,
+                   float x, float y, float size, float dir, float speed_)
+    {
+        speed = speed_;
+        bulletList.push_back(Bullet(type, shotByType, x, y, size, dir, speed));
     }
     //
     void update();
     void draw(sf::RenderTarget &target);
 
     bool collideWith(const Entity &ent);
+
+    bool empty() { return bulletList.empty(); }
+
+    float speed;
 
     std::list<Bullet> bulletList;
 };

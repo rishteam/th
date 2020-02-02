@@ -2,6 +2,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <utility>
 
 #include <SFML/System.hpp>
 
@@ -25,6 +26,15 @@ constexpr double DEG2RAD = M_PI / 180.0;
 // }
 
 // Get the distance of two points (sf::Vector2f)
-float distance(const sf::Vector2f a, const sf::Vector2f b);
+float distanceSquare(const sf::Vector2f a, const sf::Vector2f b);
+
+// random float in [0.0, 1.0]
+float randf();
+
+// random int in a range [lo, up]
+int randi(int lo, int up);
+
+// random float in specified range [lo, up]
+float randf_range(float lo, float up);
 
 }

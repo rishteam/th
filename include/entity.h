@@ -3,12 +3,14 @@
 #include <SFML/Graphics.hpp>
 
 #include <animation.h>
+#include <collision.h>
+#include <utils.h>
+#include <log.h>
 
 namespace rl {
 
 extern int g_WindowWidth, g_WindowHeight; // workaround
 
-// TODO: implement rect, polygon collision
 class Entity
 {
 public:
@@ -20,36 +22,6 @@ public:
     virtual void update();
     virtual void draw(sf::RenderTarget &target);
 
-    // Collision reloated
-    bool isCollideWith(const Entity &rhs);
-    enum CollideType
-    {
-        None,
-        Circle,
-        Rectangle, // TODO
-        Polygon    // TODO
-    };
-    CollideType collideType;
-
-    struct CircleCollideData
-    {
-        float radius;
-    };
-    struct RectangleCollideData
-    {
-        float width, height;
-    };
-    struct PolygonCollideData
-    {
-        //TODO: implment PloygonCollideData
-    };
-    union CollideData
-    {
-        CircleCollideData circle;
-        RectangleCollideData rectangle;
-        PolygonCollideData polygon;
-    };
-    CollideData collideData;
     //
     // Entity Coordinate
     // Get x coordinate of left upper corner
@@ -61,8 +33,9 @@ public:
     // Get y coordinate of the center
     virtual float getCentY() const { return y; }
     //
+    Collider judge;
+
     float x, y;   // center coordinate
-    // float cx, cy; // center coordinate of a obj
     float speed;  // speed of a entity
     float dir;    // angle
     bool visible; // TODO: impl

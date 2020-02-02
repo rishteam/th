@@ -19,6 +19,14 @@
         "stdexcept": "cpp",
         "tuple": "cpp",
         "initializer_list": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "iterator": "cpp",
+        "ios": "cpp",
+        "istream": "cpp",
+        "locale": "cpp",
+        "ostream": "cpp",
+        "__tree": "cpp",
+        "iosfwd": "cpp",
+        "thread": "cpp"
     }
 }

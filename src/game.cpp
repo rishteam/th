@@ -6,21 +6,28 @@
 #include <fmt/printf.h>
 //
 #include <game.h>
+#include <resManager.h>
 
 namespace rl {
 
 // Game attributes
 int Game::s_fps = 60;
+
+// Globals
 int g_WindowWidth = 1280, g_WindowHeight = 960;
 
+float g_GameX = 64.f, g_GameY = 32.f;
+float g_GameWidth = 768.f, g_GameHeight = 896.f;
+
 Game::Game(std::string title)
+    : player(416, 700),
+    stage1(player)
 {
     m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(g_WindowWidth, g_WindowHeight), title);
     m_window->setFramerateLimit(Game::s_fps); // fps
     // test
-    bg.setPosition(sf::Vector2f(64.f, 32.f));
-    bg.setSize(sf::Vector2f(768, 896));
-    bg.setFillColor(sf::Color(255, 255, 255));
+    ResManager::loadRes(ResTexture, "ui-background", "assets/bg.png");
+    bg.setTexture(ResManager::getTexture("ui-background"));
 }
 
 void Game::run()
@@ -41,30 +48,18 @@ BulletManager bMang;
 void Game::update()
 {
     sf::RenderWindow &window = *m_window;
-    // TEST -------------------------------------
-    auto mPos = sf::Mouse::getPosition(window);
 
-    for(int i = 0; i < 5; i++)
-    {
-        bMang.addBullet(Bullet::BulletType::Disappear, Bullet::BulletShotByType::NPCspecial, mPos.x, mPos.y, 1.f, rand() % 360);
-    }
-    bMang.update();
-    //
+    stage1.update();
     player.update();
-
-    if(bMang.collideWith(player))
-    {
-        RL_DEBUG("Hit by bullet");
-    }
 }
 
 void Game::draw()
 {
     sf::RenderWindow &window = *m_window;
 
-    window.draw(bg);
     player.draw(window);
-    bMang.draw(window);
+    stage1.draw(window);
+    window.draw(bg);
 }
 
 void Game::processEvent()

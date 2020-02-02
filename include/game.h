@@ -6,6 +6,7 @@
 
 #include <player.h>
 #include <bullet.h>
+#include <stage.h>
 #include <animation.h>
 #include <utils.h>
 
@@ -33,9 +34,10 @@ public:
 private:
     std::unique_ptr<sf::RenderWindow> m_window;
 
-    sf::RectangleShape bg;
+    sf::Sprite bg;
 
     Player player;
+    Stage1 stage1;
 };
 
 template <typename T>
@@ -45,4 +47,6 @@ float getMovePerFrame(float speed)
 }
 
 extern int g_WindowWidth, g_WindowHeight;
+extern float g_GameX, g_GameY;
+extern float g_GameWidth, g_GameHeight;
 }
