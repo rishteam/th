@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(th_proj)
 
-set(SFML_STATIC_LIBRARIES TRUE)
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+IF(WIN32)
+    set(SFML_STATIC_LIBRARIES TRUE)
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+ENDIF(WIN32)
 
 # Default mode
 IF(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
@@ -13,6 +15,8 @@ SET(CMAKE_CXX_FLAGS "-Wall")
 SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O2")
 SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
+
+SET(CMAKE_CXX_STANDARD 14)
 
 # Add the files
 file(GLOB_RECURSE SOURCES src/*.cpp)
@@ -32,7 +36,9 @@ target_link_libraries(th
 
 #Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
-file(GLOB_RECURSE BINARY_DEP_DLLS
-    "${CMAKE_SOURCE_DIR}/bin/*.dll"
-)
-file(COPY ${BINARY_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
+IF(WIN32)
+    file(GLOB_RECURSE BINARY_DEP_DLLS
+        "${CMAKE_SOURCE_DIR}/bin/*.dll"
+    )
+    file(COPY ${BINARY_DEP_DLLS} DESTINATION ${CMAKE_BINARY_DIR})
+ENDIF(WIN32)
