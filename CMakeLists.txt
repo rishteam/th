@@ -18,7 +18,7 @@ SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
 file(GLOB_RECURSE SOURCES src/*.cpp)
 set(INCLUDE_PATH "include")
 file(GLOB_RECURSE INCLUDES ${INCLUDE_PATH}/*.h)
-add_executable(th ${SOURCES})
+add_executable(th ${SOURCES} ${INCLUDES})
 
 target_include_directories(th PRIVATE ${INCLUDE_PATH})
 
