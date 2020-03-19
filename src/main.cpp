@@ -9,7 +9,6 @@
 
 using namespace rl;
 
-
 int main()
 {
     Game game("th");

@@ -42,11 +42,6 @@ public:
            float x_, float y_, float size_, float dir_, float speed_);
 
     virtual void update() override;
-    void update(float x_, float y_) // for debug
-    {
-        x = x_;
-        y = y_;
-    }
     virtual void draw(sf::RenderTarget& target) override;
 
     virtual float getX() const override
@@ -73,7 +68,7 @@ public:
     BulletType type;
     BulletShotByType shotByType;
     // Collision related
-
+    Collider body;
 private:
 
     Animation bullet;
@@ -104,4 +99,5 @@ public:
 
     std::list<Bullet> bulletList;
 };
-}
+
+} // end of namespace

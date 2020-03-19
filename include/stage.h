@@ -24,7 +24,7 @@ public:
         Stg1Wait,
         Stg1Over,
     };
-    Stg1States stg1_state;
+    Stg1States stg1_state = Stg1Gen;
     int stg1_genCnt = 0;
     sf::Clock stg1_clk;
     void stg1();

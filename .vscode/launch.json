@@ -8,21 +8,21 @@
         "name": "gdb On Windows",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/th.exe",
+        "program": "${workspaceFolder}/build/th.exe",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
         "environment": [],
         "externalConsole": false,
         "MIMode": "gdb",
-        "miDebuggerPath": "/mnt/e/msys64/mingw32/bin/gdb.exe", // E:\\msys64\\mingw32\\bin\\gdb.exe
+        "miDebuggerPath": "C:\\msys64\\mingw32\\bin\\gdb.exe", // E:\\msys64\\mingw32\\bin\\gdb.exe
         "sourceFileMap": {
             "/mnt/c/": "C:\\",
             "/mnt/e/": "E:\\"
         },
         "pipeTransport": {
-            "debuggerPath": "/mnt/e/msys64/mingw32/bin/gdb.exe",
-            "pipeProgram": "${env:windir}/system32/bash.exe", // C:\ 
+            "debuggerPath": "C:/msys64/mingw32/bin/gdb.exe",
+            "pipeProgram": "C:/msys64/usr/bin/bash.exe",
             "pipeArgs": [
                 "-c"
             ],

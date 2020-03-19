@@ -127,18 +127,10 @@ void Player::update()
     // body.data.rectangle.y = getY() + bodyColY;
 
     // TODO: dirty 64 32 768 896
-    if(x < 64) x = 64;
-    if(x > 64+768) x = 64+768;
-    if(y < 32) y = 32;
-    if(y > 32+896) y = 32+896;
-    // float lx = getX()+bodyColX, ly = getY()+bodyColY;
-    // float p[4][2] = {
-    //     {lx, ly},
-    //     {lx+bodyColW, ly},
-    //     {lx+bodyColW, ly+bodyColH},
-    //     {lx, ly+bodyColH}
-    // };
-    // if()
+    // if(x < 64) x = 64;
+    // if(x > 64+768) x = 64+768;
+    // if(y < 32) y = 32;
+    // if(y > 32+896) y = 32+896;
 }
 
 void Player::draw(sf::RenderTarget &target)
@@ -155,7 +147,7 @@ void Player::draw(sf::RenderTarget &target)
     rect.setFillColor(sf::Color(255, 255, 255, 0));
     rect.setOutlineColor(sf::Color(255, 0, 0));
     rect.setOutlineThickness(2);
-    // target.draw(rect);
+    target.draw(rect);
 
     // Draw body collider
     sf::RectangleShape bodyRect(sf::Vector2f(bodyColW, bodyColH));
@@ -163,7 +155,7 @@ void Player::draw(sf::RenderTarget &target)
     bodyRect.setFillColor(sf::Color(255, 255, 255, 0));
     bodyRect.setOutlineColor(sf::Color(255, 0, 0));
     bodyRect.setOutlineThickness(2);
-    // target.draw(bodyRect);
+    target.draw(bodyRect);
 
     // Draw judge point
     float radius = judgePointRadius;
